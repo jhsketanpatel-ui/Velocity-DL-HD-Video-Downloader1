@@ -2,131 +2,190 @@
 <html lang="en">
 <head>
     <meta name="google-site-verification" content="NwBCKsIha1QK98cVm2A718WZLVnqw8HJFzNcicC1Bbo" />
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velocity DL – Ultra Fast HD Video Downloader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Velocity DL – Pro</title>
     
     <meta name="description" content="Download Reels, Shorts, and Videos from YouTube, FB & Insta in 4K/HD. No login required.">
-    <meta name="theme-color" content="#0b0f14">
+    <meta name="theme-color" content="#0f172a">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1055/1055666.png">
 
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --gold: #cfae70; --bg: #0b0f14; --card-bg: #161b22; --text: #e6edf3; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root { 
+            --primary: #2eff4b; 
+            --bg: #0f172a;      
+            --card-bg: #1e293b; 
+            --text: #ffffff; 
+            --muted: #94a3b8;
+            --whatsapp: #25d366;
+        }
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
             background: var(--bg); color: var(--text); 
             display: flex; flex-direction: column; align-items: center; 
-            padding: 10px; margin: 0; min-height: 100vh;
+            padding: 0; margin: 0; min-height: 100vh;
+            overflow-x: hidden;
+            width: 100%;
             -webkit-user-select: none; user-select: none;
         }
-        
-        .logo-box { margin-top: 20px; position: relative; }
-        .logo-box img { 
-            width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--gold); 
-            box-shadow: 0 0 15px rgba(207, 174, 112, 0.3); background: #fff; padding: 5px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 15px rgba(207, 174, 112, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(207, 174, 112, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 0 15px rgba(207, 174, 112, 0.3); }
+
+        .header { 
+            width: 100%; padding: 15px 20px; display: flex; 
+            justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; background: var(--bg); z-index: 1000;
         }
 
-        .ad-box { width: 320px; height: 50px; margin: 12px 0; background: #1a1f26; display: flex; align-items: center; justify-content: center; border: 1px solid #30363d; border-radius: 6px; overflow: hidden; }
-        .app-container { width: 100%; max-width: 420px; background: var(--card-bg); border: 1px solid #30363d; border-radius: 16px; padding: 30px 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
-        .brand-icons { margin-bottom: 12px; display: flex; justify-content: center; gap: 20px; font-size: 26px; color: var(--gold); opacity: 0.9; }
-        
-        h1 { font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -1px; }
-        h1 span { color: var(--gold); text-shadow: 0 0 10px rgba(207,174,112,0.3); }
-        
-        /* 🔥 Platform Names */
-        .supported-list { color: var(--gold); font-size: 13px; margin: 5px 0 0 0; font-weight: 600; letter-spacing: 0.5px; }
+        .hero { text-align: center; margin-top: 10px; width: 100%; }
+        .app-logo { 
+            width: 85px; height: 85px; background: #fff; border-radius: 22px; 
+            padding: 10px; border: 3.5px solid var(--primary); margin-bottom: 8px;
+            box-shadow: 0 0 20px rgba(46, 255, 75, 0.15);
+        }
+        h1 { font-size: 26px; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
+        h1 span { color: var(--primary); }
+        .tagline { color: var(--primary); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 
-        .input-group { background: #0d1117; border: 2px solid #30363d; border-radius: 10px; padding: 4px; display: flex; margin: 25px 0; }
-        .input-group:focus-within { border-color: var(--gold); }
-        input { flex: 1; background: transparent; border: none; padding: 14px; color: #fff; outline: none; font-size: 15px; }
+        .ads-container { 
+            display: flex; gap: 10px; overflow-x: auto; width: 100%; 
+            padding: 15px 20px; scroll-snap-type: x mandatory;
+            scrollbar-width: none; 
+        }
+        .ads-container::-webkit-scrollbar { display: none; }
         
-        .btn-go { background: var(--gold); border: none; padding: 0 22px; border-radius: 8px; font-weight: 900; cursor: pointer; color: #000; transition: 0.2s; }
-        .btn-go:active { transform: scale(0.95); }
+        .ad-frame { 
+            min-width: 130px; height: 45px; background: var(--card-bg); 
+            border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
 
-        .how-to { text-align: left; background: rgba(255,255,255,0.03); padding: 16px; border-radius: 10px; border-left: 4px solid var(--gold); margin-top: 5px; }
-        .how-to h3 { font-size: 16px; color: var(--gold); margin: 0 0 8px 0; }
-        .how-to p { font-size: 13px; color: #8b949e; margin: 5px 0; line-height: 1.4; }
+        .input-group { 
+            width: 90%; background: var(--card-bg); 
+            border: 1.5px solid #334155; border-radius: 15px; 
+            display: flex; align-items: center; padding: 5px 15px; margin: 10px 0;
+        }
+        input { 
+            flex: 1; background: transparent; border: none; padding: 12px 0; 
+            color: #fff; font-size: 15px; width: 100%;
+        }
+        .paste-btn { color: var(--primary); font-weight: 800; font-size: 13px; cursor: pointer; padding: 5px; }
 
-        #results { margin-top: 20px; }
-        .dl-card { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 14px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; animation: fadeIn 0.5s ease forwards; }
-        .btn-download { background: transparent; border: 2px solid var(--gold); color: var(--gold); text-decoration: none; padding: 8px 18px; border-radius: 6px; font-size: 14px; font-weight: bold; }
-        .share-wa { margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; background: #23a55a; color: white; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; width: 100%; }
+        .btn-download { 
+            width: 90%; background: var(--primary); border: none; 
+            padding: 16px; border-radius: 15px; font-weight: 900; font-size: 17px;
+            color: #000; margin: 15px 0; transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(46, 255, 75, 0.2);
+        }
+
+        /* WhatsApp Share Button Style */
+        .btn-whatsapp {
+            width: 90%; background: var(--whatsapp); color: white;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+            gap: 10px; padding: 14px; border-radius: 15px; font-weight: 800;
+            font-size: 16px; margin: 10px 0 20px 0; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        .features { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; 
+            width: 90%; margin: 15px 0 20px 0; 
+        }
+        .feature { 
+            background: var(--card-bg); padding: 15px; border-radius: 12px; 
+            display: flex; align-items: center; gap: 10px; font-size: 13px;
+        }
+        .feature i { color: var(--primary); }
+
+        .bottom-nav { 
+            position: fixed; bottom: 0; width: 100%; background: #0a0f1d; 
+            display: flex; justify-content: space-around; padding: 10px 0 25px 0; 
+            border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000;
+        }
+        .nav-item { text-align: center; color: var(--muted); text-decoration: none; font-size: 11px; flex: 1; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 3px; }
+
+        #results { width: 90%; margin-top: 10px; }
+        .dl-card { 
+            background: var(--card-bg); border-radius: 12px; padding: 12px 15px; 
+            margin-bottom: 10px; display: flex; justify-content: space-between; 
+            align-items: center; border-left: 4px solid var(--primary);
+        }
+        .save-btn { background: var(--primary); color: #000; text-decoration: none; padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 800; }
+
+        .banner-ad { width: 320px; height: 50px; margin: 10px 0; overflow: hidden; border-radius: 8px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div class="logo-box">
-        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055666.png" alt="Velocity DL">
+    <div class="header">
+        <span style="font-weight: 700;">Velocity DL Pro</span>
+        <i class="fas fa-ellipsis-v"></i>
     </div>
 
-    <div class="ad-box">
-        <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; overflow:hidden;" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-    </div>
-
-    <div class="app-container">
-        <div class="brand-icons">
-            <i class="fab fa-youtube"></i> <i class="fab fa-instagram"></i> <i class="fab fa-facebook-f"></i> <i class="fab fa-tiktok"></i>
-        </div>
+    <div class="hero">
+        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055666.png" class="app-logo" alt="Logo">
         <h1>Velocity <span>DL</span></h1>
-        <p class="supported-list">YouTube • Facebook • Instagram</p>
-        
-        <div class="input-group">
-            <input type="url" id="v_url_in" placeholder="Paste link here..." required>
-            <button class="btn-go" onclick="_0x_start()">GO</button>
-        </div>
-
-        <div class="ad-box" style="margin: 5px auto 15px;">
-            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; overflow:hidden;" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
-
-        <div class="how-to">
-            <h3>Download Kaise Karein?</h3>
-            <p>• Link paste karke <b>GO</b> button dabayein.</p>
-        </div>
-
-        <div id="loading" style="display:none; color:var(--gold); margin:20px; font-weight:bold;"><i class="fas fa-circle-notch fa-spin"></i> Processing...</div>
-        <div id="results"></div>
-        
-        <hr style="border: 0; border-top: 1px solid #30363d; margin: 25px 0;">
-        <a href="whatsapp://send?text=Check this HD Downloader: https://velocity-dl.netlify.app" class="share-wa"><i class="fab fa-whatsapp"></i> Share on WhatsApp</a>
+        <div class="tagline">Ultimate Downloader</div>
     </div>
 
-    <div class="ad-box">
-        <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; overflow:hidden;" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+    <div class="banner-ad">
+        <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none;" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
     </div>
+
+    <div class="ads-container">
+        <div class="ad-frame">
+            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+        </div>
+        <div class="ad-frame">
+            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+        </div>
+        <div class="ad-frame">
+            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+        </div>
+        <div class="ad-frame">
+            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <input type="url" id="v_url_in" placeholder="Paste link here..." required>
+        <span class="paste-btn" onclick="navigator.clipboard.readText().then(t => document.getElementById('v_url_in').value=t)">PASTE</span>
+    </div>
+
+    <button class="btn-download" onclick="_0x_start()">Download Now</button>
+
+    <div id="loading" style="display:none; color:var(--primary); margin:10px; font-weight:bold;"><i class="fas fa-spinner fa-spin"></i> Processing Video...</div>
+    
+    <div id="results"></div>
+
+    <div class="features">
+        <div class="feature"><i class="fas fa-bolt"></i> Ultra Fast</div>
+        <div class="feature"><i class="fas fa-video"></i> 4K Quality</div>
+        <div class="feature"><i class="fas fa-shield-alt"></i> No Login</div>
+        <div class="feature"><i class="fas fa-mobile"></i> Pro UI</div>
+    </div>
+
+    <a href="whatsapp://send?text=Download any Video or Reel in HD for FREE! 🔥 Check out Velocity DL: https://velocity-dl.netlify.app" class="btn-whatsapp">
+        <i class="fab fa-whatsapp"></i> Share on WhatsApp
+    </a>
+
+    <div style="height: 80px;"></div> <nav class="bottom-nav">
+        <a href="#" class="nav-item active"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="nav-item"><i class="fas fa-history"></i>History</a>
+        <a href="#" class="nav-item"><i class="fas fa-cog"></i>Settings</a>
+        <a href="#" class="nav-item"><i class="fas fa-comment"></i>Help</a>
+    </nav>
 
 <script>
-    // 🛡️ SECURITY Block
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false; 
-        if(e.ctrlKey && (e.shiftKey || e.keyCode == 85 || e.keyCode == 83)) {
-            return false;
-        }
-    };
-
     (function(){
-        const _0x_p = {
-            a: "AIzaSyCr65KNzhCG3weZULHovWk7PjaBbthlPAw",
-            b: "velocity-dl.firebaseapp.com",
-            c: "https://velocity-dl-default-rtdb.firebaseio.com",
-            d: "velocity-dl",
-            e: "1:783017073730:web:5ee5f0c6985a149dd021db"
-        };
-
+        const _0x_p = { a: "AIzaSyCr65KNzhCG3weZULHovWk7PjaBbthlPAw", b: "velocity-dl.firebaseapp.com", c: "https://velocity-dl-default-rtdb.firebaseio.com", d: "velocity-dl", e: "1:783017073730:web:5ee5f0c6985a149dd021db" };
         firebase.initializeApp({apiKey:_0x_p.a, authDomain:_0x_p.b, databaseURL:_0x_p.c, projectId:_0x_p.d, appId:_0x_p.e});
         const _0x_db = firebase.database();
 
@@ -134,40 +193,30 @@
             const _0x_ui = document.getElementById('v_url_in');
             const _0x_rb = document.getElementById('results');
             const _0x_ld = document.getElementById('loading');
-            
             if(!_0x_ui.value.trim()) return;
-            _0x_ld.style.display = "block";
-            _0x_rb.innerHTML = "";
-
+            _0x_ld.style.display = "block"; _0x_rb.innerHTML = "";
             try {
                 const _0x_sn = await _0x_db.ref('system_config/api_keys').once('value');
                 const _0x_ks = Object.values(_0x_sn.val() || {});
                 let _0x_ok = false;
-
                 for(let _0x_k of _0x_ks) {
                     if(!_0x_k) continue;
                     try {
                         const _0x_res = await fetch("https://download-all-in-one-elite.p.rapidapi.com/v1/social/autolink", {
                             method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "x-rapidapi-key": _0x_k,
-                                "x-rapidapi-host": "download-all-in-one-elite.p.rapidapi.com"
-                            },
+                            headers: { "Content-Type": "application/json", "x-rapidapi-key": _0x_k, "x-rapidapi-host": "download-all-in-one-elite.p.rapidapi.com" },
                             body: JSON.stringify({ url: _0x_ui.value.trim() })
                         });
-                        
                         const _0x_dt = await _0x_res.json();
                         if(_0x_dt.medias) {
                             _0x_dt.medias.forEach(m => {
-                                _0x_rb.innerHTML += `<div class="dl-card"><span><b>${m.quality || 'HD'}</b></span><a href="${m.url}" target="_blank" class="btn-download">SAVE</a></div>`;
+                                _0x_rb.innerHTML += `<div class="dl-card"><span><b>${m.quality || 'HD'}</b></span><a href="${m.url}" target="_blank" class="save-btn">SAVE</a></div>`;
                             });
                             _0x_ok = true; break;
                         }
                     } catch(e) { continue; }
                 }
-                if(!_0x_ok) alert("Error! Try different link.");
-            } catch(e) { alert("Try Again!"); }
+            } catch(e) { alert("Network Error!"); }
             finally { _0x_ld.style.display = "none"; }
         };
     })();
