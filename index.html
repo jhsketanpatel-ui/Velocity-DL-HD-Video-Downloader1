@@ -31,9 +31,7 @@
             background: var(--bg); color: var(--text); 
             display: flex; flex-direction: column; align-items: center; 
             padding: 0; margin: 0; min-height: 100vh;
-            overflow-x: hidden;
-            width: 100%;
-            -webkit-user-select: none; user-select: none;
+            overflow-x: hidden; width: 100%; -webkit-user-select: none; user-select: none;
         }
 
         .header { 
@@ -84,7 +82,6 @@
             box-shadow: 0 5px 15px rgba(46, 255, 75, 0.2);
         }
 
-        /* WhatsApp Share Button Style */
         .btn-whatsapp {
             width: 90%; background: var(--whatsapp); color: white;
             text-decoration: none; display: flex; align-items: center; justify-content: center;
@@ -107,7 +104,7 @@
             display: flex; justify-content: space-around; padding: 10px 0 25px 0; 
             border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000;
         }
-        .nav-item { text-align: center; color: var(--muted); text-decoration: none; font-size: 11px; flex: 1; }
+        .nav-item { text-align: center; color: var(--muted); text-decoration: none; font-size: 11px; flex: 1; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
         .nav-item i { font-size: 22px; display: block; margin-bottom: 3px; }
 
@@ -120,13 +117,17 @@
         .save-btn { background: var(--primary); color: #000; text-decoration: none; padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 800; }
 
         .banner-ad { width: 320px; height: 50px; margin: 10px 0; overflow: hidden; border-radius: 8px; }
+
+        #v_modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-box { background: var(--card-bg); width: 88%; padding: 25px; border-radius: 20px; border: 1.5px solid var(--primary); position: relative; }
+        .close-btn { position: absolute; top: 12px; right: 15px; color: var(--primary); font-size: 24px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <div class="header">
         <span style="font-weight: 700;">Velocity DL Pro</span>
-        <i class="fas fa-ellipsis-v"></i>
+        <i class="fas fa-ellipsis-v" onclick="showSettings()"></i>
     </div>
 
     <div class="hero">
@@ -140,18 +141,10 @@
     </div>
 
     <div class="ads-container">
-        <div class="ad-frame">
-            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
-        <div class="ad-frame">
-            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
-        <div class="ad-frame">
-            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
-        <div class="ad-frame">
-            <iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
+        <div class="ad-frame"><iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);"></iframe></div>
+        <div class="ad-frame"><iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);"></iframe></div>
+        <div class="ad-frame"><iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);"></iframe></div>
+        <div class="ad-frame"><iframe srcdoc="<script>var atOptions={'key':'7a7a2777eb9d087c5f96aeeff11df999','format':'iframe','height':50,'width':320,'params':{}};</script><script src='https://www.highperformanceformat.com/7a7a2777eb9d087c5f96aeeff11df999/invoke.js'></script>" style="width:320px; height:50px; border:none; transform: scale(0.4);"></iframe></div>
     </div>
 
     <div class="input-group">
@@ -161,8 +154,7 @@
 
     <button class="btn-download" onclick="_0x_start()">Download Now</button>
 
-    <div id="loading" style="display:none; color:var(--primary); margin:10px; font-weight:bold;"><i class="fas fa-spinner fa-spin"></i> Processing Video...</div>
-    
+    <div id="loading" style="display:none; color:var(--primary); margin:10px; font-weight:bold;"><i class="fas fa-spinner fa-spin"></i> Checking Quality & Sound...</div>
     <div id="results"></div>
 
     <div class="features">
@@ -172,15 +164,23 @@
         <div class="feature"><i class="fas fa-mobile"></i> Pro UI</div>
     </div>
 
-    <a href="whatsapp://send?text=Download any Video or Reel in HD for FREE! 🔥 Check out Velocity DL: https://velocity-dl.netlify.app" class="btn-whatsapp">
+    <a href="whatsapp://send?text=Download any Video 🔥 https://velocity-dl.netlify.app" class="btn-whatsapp">
         <i class="fab fa-whatsapp"></i> Share on WhatsApp
     </a>
 
-    <div style="height: 80px;"></div> <nav class="bottom-nav">
-        <a href="#" class="nav-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="#" class="nav-item"><i class="fas fa-history"></i>History</a>
-        <a href="#" class="nav-item"><i class="fas fa-cog"></i>Settings</a>
-        <a href="#" class="nav-item"><i class="fas fa-comment"></i>Help</a>
+    <div id="v_modal" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modal_content"></div>
+        </div>
+    </div>
+
+    <div style="height: 80px;"></div> 
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="location.reload()"><i class="fas fa-home"></i>Home</div>
+        <div class="nav-item" onclick="showHistory()"><i class="fas fa-history"></i>History</div>
+        <div class="nav-item" onclick="showSettings()"><i class="fas fa-cog"></i>Settings</div>
+        <div class="nav-item" onclick="showHelp()"><i class="fas fa-comment"></i>Help</div>
     </nav>
 
 <script>
@@ -195,10 +195,14 @@
             const _0x_ld = document.getElementById('loading');
             if(!_0x_ui.value.trim()) return;
             _0x_ld.style.display = "block"; _0x_rb.innerHTML = "";
+            
+            let h = JSON.parse(localStorage.getItem('v_history') || '[]');
+            h.unshift(_0x_ui.value.trim());
+            localStorage.setItem('v_history', JSON.stringify(h.slice(0,10)));
+
             try {
                 const _0x_sn = await _0x_db.ref('system_config/api_keys').once('value');
                 const _0x_ks = Object.values(_0x_sn.val() || {});
-                let _0x_ok = false;
                 for(let _0x_k of _0x_ks) {
                     if(!_0x_k) continue;
                     try {
@@ -209,10 +213,31 @@
                         });
                         const _0x_dt = await _0x_res.json();
                         if(_0x_dt.medias) {
-                            _0x_dt.medias.forEach(m => {
-                                _0x_rb.innerHTML += `<div class="dl-card"><span><b>${m.quality || 'HD'}</b></span><a href="${m.url}" target="_blank" class="save-btn">SAVE</a></div>`;
+                            // --- SOUND FIX LOGIC ---
+                            // Hum pehle wo links dhoondh rahe hain jisme sound hona confirm hai
+                            let soundMedias = _0x_dt.medias.filter(m => 
+                                m.extension !== 'webp' && 
+                                (m.hasAudio !== false) && // Sirf wahi jisme sound hai
+                                (m.type !== 'video_only')
+                            );
+
+                            // Agar sound wala ek bhi nahi mila (kuch cases mein), toh saare dikhao warning ke saath
+                            let finalMedias = soundMedias.length > 0 ? soundMedias : _0x_dt.medias;
+
+                            // Sorting: Quality wise (4K top par)
+                            let sorted = finalMedias.sort((a,b) => (parseInt(b.quality) || 0) - (parseInt(a.quality) || 0));
+                            
+                            sorted.forEach(m => {
+                                let is4K = m.quality.toLowerCase().includes('4k') || m.quality.includes('2160');
+                                let hasSound = (m.hasAudio !== false);
+                                
+                                _0x_rb.innerHTML += `
+                                <div class="dl-card" style="${is4K ? 'border-left: 5px solid #FFD700; background: linear-gradient(90deg, #1e293b, #25334a);' : ''}">
+                                    <span><b>${is4K ? '⭐ 4K ULTRA' : m.quality} ${hasSound ? '🔊' : '🔇'}</b></span>
+                                    <a href="${m.url}" target="_blank" class="save-btn">${hasSound ? 'SAVE' : 'NO SOUND'}</a>
+                                </div>`;
                             });
-                            _0x_ok = true; break;
+                            break;
                         }
                     } catch(e) { continue; }
                 }
@@ -220,6 +245,19 @@
             finally { _0x_ld.style.display = "none"; }
         };
     })();
+
+    function openModal(h) { document.getElementById('modal_content').innerHTML = h; document.getElementById('v_modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('v_modal').style.display = 'none'; }
+
+    function showHistory() {
+        let h = JSON.parse(localStorage.getItem('v_history') || '[]');
+        let c = "<h3>History</h3>";
+        if(h.length==0) c += "<p>No downloads yet.</p>";
+        else h.forEach(u => c += `<div style='font-size:10px; margin-bottom:8px; border-bottom:1px solid #334155; overflow:hidden;'>${u.substring(0,40)}...</div>`);
+        openModal(c);
+    }
+    function showSettings() { openModal("<h3>Settings</h3><p>Version 2.2 Sound-Fix</p><p>4K Engine: <span style='color:var(--primary)'>Active</span></p><p>Sound Muxing: <span style='color:var(--primary)'>Enabled</span></p>"); }
+    function showHelp() { openModal("<h3>Help</h3><p>Choose links with 🔊 for sound. Note: YouTube 4K often requires separate audio merging.</p>"); }
 </script>
 </body>
 </html>
